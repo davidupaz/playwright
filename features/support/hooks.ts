@@ -1,7 +1,9 @@
-import { Before, After } from '@cucumber/cucumber';
+import { Before, After, setDefaultTimeout } from '@cucumber/cucumber';
 import { chromium } from 'playwright';
 import { CustomWorld } from './world';
 
+setDefaultTimeout(30_000); 
+  // timeout for cucumber steps
 Before(async function (this: CustomWorld) {
   // 1) Browser: la app (Chromium)
   this.browser = await chromium.launch({ headless: false });
