@@ -6,6 +6,6 @@ export class CustomWorld {
   context!: BrowserContext;
   page!: Page;
 
-  // Para guardar datos del escenario (ej: usuario creado, ids, etc.)
+  // To store scenario data (e.g., created user, IDs, etc.)
   state: Record<string, any> = {};
 }
