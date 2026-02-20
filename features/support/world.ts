@@ -9,3 +9,6 @@ export class CustomWorld {
   // To store scenario data (e.g., created user, IDs, etc.)
   state: Record<string, any> = {};
 }
+
+// Register the CustomWorld so Cucumber uses it for scenarios
+setWorldConstructor(CustomWorld);

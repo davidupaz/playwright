@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "cucumber-js --profile default"
+    "test": "cucumber-js --profile default",
+    "postinstall": "npx playwright install"
   },
   "keywords": [],
   "author": "",
