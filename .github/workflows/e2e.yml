@@ -1,0 +1,54 @@
+name: E2E (Cucumber + Playwright)
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  e2e:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      # Cache de browsers de Playwright para que no descargue cada vez
+      - name: Cache Playwright browsers
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: ${{ runner.os }}-ms-playwright-${{ hashFiles('package-lock.json') }}
+
+      - name: Install Playwright browsers (and system deps)
+        run: npx playwright install --with-deps
+
+      - name: Run E2E
+        env:
+          CI: true
+        run: npm test
+
+      - name: Upload artifacts (si existen)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-artifacts
+          path: |
+            playwright-report/**
+            test-results/**
+            reports/**
+            screenshots/**
+            traces/**
+          if-no-files-found: ignore
