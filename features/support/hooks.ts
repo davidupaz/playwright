@@ -6,11 +6,8 @@ setDefaultTimeout(30_000);
   // timeout for cucumber steps
 Before(async function (this: CustomWorld) {
   // 1) Browser: app (Chromium)
-  // Make headless configurable: honor PLAYWRIGHT_HEADLESS env or default to CI detection
-  const headless = process.env.PLAYWRIGHT_HEADLESS
-    ? process.env.PLAYWRIGHT_HEADLESS.toLowerCase() === 'true'
-    : !!process.env.CI;
-  this.browser = await chromium.launch({ headless });
+  // Run in headless mode
+  this.browser = await chromium.launch({ headless: true });
 
   // 2) Context: isolated session
   this.context = await this.browser.newContext();
